@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suas Séries</title>
+</head>
+
+<body>
+    <!-- barra de navegação-->
+    <nav class="blue lighten-2" role="navigation">
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo">
+                <img style="margin-top: 6px;" class="brand-logo" src="/img/logos/logo-white.png" height="48" alt="">
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li><a href="/login">Login</a></li>
+            </ul>
+            <ul id="nav-mobile" class="sidenav">
+                <li><a href="/login">Login</a></li>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav>
+    <!-- fim da barra de navegação -->
+
+    <div class="container">
+        <div class="section">
+            <div class="row">
+                <div class="col s12 m12">
+                    <div class="center">
+                        <h2 class="blue-text text-lighten-2">Cadastro de Usuário</h2>
+                    </div>
+                    <!-- Formulário -->
+                    <form action="/cadastro-usuario" method="post" class="col s12">
+                        <div class="row">
+                            <div class="input-field col s12 m6">
+                                <input name="nome" type="text" class="validate" required>
+                                <label for="nome">Nome</label>
+                            </div>
+                            <div class="input-field col s12 m6">
+                                <input name="sobrenome" type="text" class="validate" required>
+                                <label for="email">Sobrenome</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input name="email" type="email" class="validate" required>
+                                <label for="email">Email</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="input-field col s12">
+                                <input name="password" type="password" class="validate" required>
+                                <label for="password">Password</label>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="center">
+                            <button class="btn waves-effect waves-light blue lighten-2" type="submit" name="action">
+                                Finalizar
+                            </button>
+                        </div>
+                    </form>
+                    <!-- Fim do formulário -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <footer class="page-footer blue lighten-1" style="margin-top: 5px">
+        <div class="footer-copyright">
+            <div class="container">
+                © <span id="data_agora"></span>
+                <a class="grey-text text-lighten-4 right" target="_blank" href="https://github.com/JardelGoncalves">Jardel
+                    Gonçalves</a>
+            </div>
+        </div>
+    </footer>
+
+    
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script src="/js/init.js"></script>
+    <script>
+        window.addEventListener('load', (event) => { let data_agora = document.getElementById("data_agora"); var dt = new Date(); data_agora.innerHTML = dt.getFullYear(); });
+    </script>
+</body>
+
+</html>
