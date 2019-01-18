@@ -18,11 +18,19 @@
             <a href="/" class="brand-logo">
                 <img style="margin-top: 6px;" class="brand-logo" src="/img/logos/logo-white.png" height="48" alt="">
             </a>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="/login">Login</a></li>
+            <ul class="right hide-on-med-and-down" th:switch="${usuario.id}">
+                <li th:case="0"><a href="/login">Login</a></li>
+                <div th:case="*">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Sair</a></li>
+                </div>
             </ul>
-            <ul id="nav-mobile" class="sidenav">
-                <li><a href="/login">Login</a></li>
+            <ul id="nav-mobile" class="sidenav" th:switch="${usuario.id}">
+                <li th:case="0"><a href="/login">Login</a></li>
+                <div th:case="*">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/logout">Sair</a></li>
+                </div>
             </ul>
             <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         </div>
