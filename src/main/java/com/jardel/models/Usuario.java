@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -69,7 +71,8 @@ public class Usuario implements UserDetails {
     }
 
     public void setSenha(String senha) {
-        this.senha = senha;
+        PasswordEncoder encode = new BCryptPasswordEncoder();
+        this.senha = encode.encode(senha);
     }
 
     public List<Serie> getSeries() {
