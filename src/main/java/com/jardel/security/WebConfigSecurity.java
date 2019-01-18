@@ -27,11 +27,13 @@ public class WebConfigSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers(HttpMethod.GET, "/register").permitAll() // permite acesso ao form de cadastro
         .antMatchers(HttpMethod.POST, "/cadastro-usuario").permitAll() // permite qualquer user se cadastrar
         .anyRequest().authenticated()
-        .and().formLogin()
+        .and().formLogin().permitAll()
+        .loginPage("/login")
         .defaultSuccessUrl("/dashboard")
+        .failureUrl("/login")
         .and().logout()
         .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-        .logoutSuccessUrl("/");
+        .logoutSuccessUrl("/login");
 
     }
     @Override
