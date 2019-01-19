@@ -9,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
 
 import com.jardel.models.Serie;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -167,5 +169,58 @@ public class AdicionarSerie {
         modelAndView.addObject("usuario", usuario);
         modelAndView.addObject("serie", serie.get());
         return modelAndView;
+    }
+
+    @GetMapping("/dashboard/view/edit/{id}")
+    public Object editSeriePage(@PathVariable("id") int id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = new Usuario();
+        Optional<Serie> serie;
+
+        ModelAndView modelAndView;
+
+        try {
+            // obtem o usuario caso esteja autenticado
+            usuario = (Usuario) auth.getPrincipal();
+            // obtendo a série
+            serie = serieRepository.findById(id);
+            // verifica se o user no db bate com o que ta tentando excluir
+            if (serie != null && usuario.equals(serie.get().getUsuario())) {
+
+                modelAndView = new ModelAndView("dashboard/edit-serie");
+            }else{
+                return "redirect:/dashboard";
+            }
+        }catch(Exception e){
+            return "redirect:/dashboard";
+        }
+        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("serie", serie.get());
+        return modelAndView;
+    }
+
+    @PostMapping("/dashboard/edit-serie")
+    public String editSerie(Serie newserie){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = new Usuario();
+        Optional<Serie> serie;
+        try {
+            // obtem o usuario caso esteja autenticado
+            usuario = (Usuario) auth.getPrincipal();
+            // obtendo a série
+            serie = serieRepository.findById(newserie.getId());
+            // verifica se o user no db bate com o que ta tentando excluir
+            if (serie != null && usuario.equals(serie.get().getUsuario())) {
+                newserie.setFilename(serie.get().getFilename());
+                newserie.setUsuario(usuario);
+                newserie.setData_modificacao(new Date());
+                serieRepository.save(newserie);
+            }else{
+                return "redirect:/dashboard";
+            }
+        }catch(Exception e){
+            return "redirect:/dashboard";
+        }
+        return "redirect:/dashboard";
     }
 }
