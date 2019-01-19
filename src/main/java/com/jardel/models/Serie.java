@@ -27,6 +27,7 @@ public class Serie implements Serializable{
 
     private String titulo;
     private String sinopse;
+    private String filename;
     private int quantidade_ep;
     private int quantidade_temp;
     private double tempo_medio;
@@ -51,6 +52,14 @@ public class Serie implements Serializable{
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String file) {
+        this.filename = file;
     }
 
     public String getTitulo() {
