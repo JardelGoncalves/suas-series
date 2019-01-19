@@ -51,6 +51,7 @@
                 </div>
                 <div class="col s12 m6" style="margin-top: 27px">
                     <img class="materialboxed responsive-img" width="500" th:src="'/img/' + ${serie.filename}">
+                    <p class="info-serie">Sinopse: <span style="font-size: 18px" class="blue-text" th:text="${serie.sinopse}"></span></p>
                 </div>
                 <div class="col s12 m6">
                     <p class="info-serie">Você está na <span class="blue-text" th:text="${serie.ultima_temp}"></span><span
@@ -68,6 +69,9 @@
                         <span th:case="*">
                             Você <span class="blue-text">não concluiu</span> esta série
                         </span>
+                    </p>
+                    <p class="info-serie">Seu comentário sobre a série: <br>
+                        <span style="margin-left: 40px">"<span style="font-size: 15px;" class="blue-text text-darken-2" th:text="${serie.comentario}"></span>"</span>
                     </p>
                     <div class="col s12 m12 center" style="margin-top: 40px; margin-bottom: 30px">
                         <a th:href="@{/dashboard/view/edit/{id}(id=${serie.id})}" class="waves-effect waves-light btn yellow black-text">Atualizar informações</a>

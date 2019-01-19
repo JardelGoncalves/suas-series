@@ -70,7 +70,7 @@
                         <div class="card-content">
                             <h6 style="text-transform: capitalize;" th:text="${serie.titulo}"></h6>
                             <div class="informacao">
-                                <p class="blue-text">Quantidade de ep. assistido: <span class="black-text" th:text="${serie.ultimo_ep} * ${serie.ultima_temp}"></span></p>
+                                <p class="blue-text">Quantidade de ep. assistido: <span class="black-text" th:text="(${serie.ultima_temp} - 1) * ${serie.ep_por_temporada} + ${serie.ultimo_ep}"></span></p>
                                 <p class="blue-text">Tempo médio por ep: <span class="black-text" th:text="${serie.tempo_medio} + ' min'"></span></p>
                                 <p class="blue-text" th:switch="${serie.finalizada}">Série concluida: 
                                     <span class="black-text" th:case="true">Sim</span>

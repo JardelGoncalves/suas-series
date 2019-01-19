@@ -66,9 +66,10 @@
                 </div>
 
                 <div class="row col s12 m12">
-                    <div class="col s12 m6 row">
+                    <div class="col s12 m4 row">
                         <div class="input-field col s10 m10">
-                            <input name="ultimo_ep" type="number" min="1" th:field="*{ultimo_ep}" class="validate" required>
+                            <input name="ultimo_ep" type="number" min="1" th:field="*{ultimo_ep}" class="validate"
+                                required>
                             <label for="ultimo_ep">Último episódio assistido</label>
                         </div>
                         <div class=" col s2 m2">
@@ -76,20 +77,32 @@
                         </div>
                     </div>
 
-                    <div class="col s12 m6 row">
+                    <div class="col s12 m4 row">
                         <div class="input-field col s10 m10">
-                            <input name="ultima_temp" type="number" min="1" th:field="*{ultima_temp}" class="validate" required>
+                            <input name="ultima_temp" type="number" min="1" th:field="*{ultima_temp}" class="validate"
+                                required>
                             <label for="ultima_temp">Qual temporada</label>
                         </div>
                         <div class="col s2 m2">
                             <a onclick="M.toast({html: 'Informe a temporada (numericamente) do último episódio assistido'})">?</a>
                         </div>
                     </div>
+                    <div class="col s12 m4 row">
+                        <div class="input-field col s10 m10">
+                            <input name="ep_por_temporada" type="number" min="1" th:field="*{ep_por_temporada}" class="validate"
+                                required>
+                            <label for="ep_por_temporada">Episódios/temporada</label>
+                        </div>
+                        <div class="col s2 m2">
+                            <a onclick="M.toast({html: 'Informe a quantidade de episódios por temporada'})">?</a>
+                        </div>
+                    </div>
                 </div>
                 <div class="row col s12 m12">
                     <div class="col s12 m6 row">
                         <div class="input-field col s10 m10">
-                            <input name="tempo_medio" type="number" min="0" th:field="*{tempo_medio}" class="validate" required>
+                            <input name="tempo_medio" type="number" min="0" th:field="*{tempo_medio}" class="validate"
+                                required>
                             <label for="tempo_medio">Tempo médio por episódio (em minutos)</label>
                         </div>
                         <div class="col s2 m2">
