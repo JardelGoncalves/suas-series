@@ -52,21 +52,25 @@
                     <br>
                     Você não possui séries cadastradas!
                 </h4>
+                <p th:text="${usuario.id}"></p>
 
                 <a class="waves-effect waves-light btn blue lighten-2">Que tal começar!</a>
             </div>
             <div class="with-series" th:case="*">
-                <div class="col s12 m4">
+
+
+                <div class="col s12 m4" th:each="serie : ${usuario.series}">
                     <div class="card">
                         <div class="card-image">
-                            <img src="/img/logos/logo-blue.png" />
+                            <img th:src="'/img/' + ${serie.filename}" height="270" />
                             <a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">trending_flat</i></a>
                         </div>
                         <div class="card-content">
-                            <h4 class="card-title">Nome da série</h4>
+                            <h4 class="card-title" th:text="${serie.titulo}"></h4>
                         </div>
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

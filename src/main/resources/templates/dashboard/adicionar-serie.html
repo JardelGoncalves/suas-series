@@ -9,12 +9,6 @@
     <link type="text/css" rel="stylesheet" href="/css/materialize.min.css" media="screen,projection" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Suas Séries</title>
-    <style>
-        .without-series {
-            margin-top: 150px;
-            margin-bottom: 160px;
-        }
-    </style>
 </head>
 
 <body>
@@ -46,6 +40,62 @@
 
     <div class="container">
         <div class="row">
+            <div class="center">
+                <br>
+                <h3 class="blue-text text-ligthen-2">Adicionar Série</h3>
+            </div>
+            <form action="/dashboard/adicionar-serie" method="post" class="col s12" enctype="multipart/form-data">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="titulo" type="text" class="validate" required>
+                        <label for="first_name">Nome</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea name="sinopse" class="materialize-textarea"></textarea>
+                        <label for="textarea1">Sinopse</label>
+                    </div>
+                </div>
+                <div class="row col s12 m12">
+                    <div class="input-field col s12 m4">
+                        <input name="quantidade_ep" type="text" class="validate" required>
+                        <label for="quantidade_ep">Quantidade de episódio por temporada</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input name="quantidade_temp" type="text" class="validate" required>
+                        <label for="quantidade_temp">Quantidade de temporada</label>
+                    </div>
+                    <div class="input-field col s12 m4">
+                        <input name="tempo_medio" type="text" class="validate" required>
+                        <label for="tempo_medio">Tempo médio por episódio</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="file-field input-field col s12">
+                        <div class="btn blue right">
+                            <span>Foto</span>
+                            <input name="file" type="file" multiple required>
+                        </div>
+                        <div class="file-path-wrapper">
+                            <input class="file-path validate" type="text" placeholder="Selecione uma figura da série">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea name="comentario" class="materialize-textarea"></textarea>
+                        <label for="textarea1">Comentário</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="waves-effect waves-light btn blue lighten-2">
+                        Adicionar <i class="material-icons">add</i>
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 
@@ -64,6 +114,7 @@
     <script src="/js/init.js"></script>
     <script>
         window.addEventListener('load', (event) => { let data_agora = document.getElementById("data_agora"); var dt = new Date(); data_agora.innerHTML = dt.getFullYear(); });
+        document.getElementById("uploadBtn").onchange = function () { document.getElementById("uploadFile").value = this.value.replace("C:\\fakepath\\", ""); };
     </script>
 </body>
 
