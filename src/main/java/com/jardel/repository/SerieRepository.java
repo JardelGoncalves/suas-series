@@ -14,6 +14,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface SerieRepository extends CrudRepository<Serie, Integer>{
 
     @Query("select s from Serie s where s.usuario.id = ?1")
-    List<Serie> findSerieByUser(int usuario_id);
+    public List<Serie> findSerieByUser(int usuario_id);
 
 }
