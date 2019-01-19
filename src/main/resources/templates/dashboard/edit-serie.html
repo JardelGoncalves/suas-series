@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="shortcut icon" type="image/png" href="/favicon.png" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link type="text/css" rel="stylesheet" href="/css/materialize.min.css" media="screen,projection" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Suas Séries</title>
+</head>
+
+<body>
+    <nav class="blue lighten-2" role="navigation">
+        <!-- barra de navegação-->
+        <div class="nav-wrapper container">
+            <a href="/" class="brand-logo">
+                <img style="margin-top: 6px;" class="brand-logo" src="/img/logos/logo-white.png" height="48" alt="">
+            </a>
+            <ul class="right hide-on-med-and-down" th:switch="${usuario.id}">
+                <li th:case="0"><a href="/login">Login</a></li>
+                <div th:case="*">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/dashboard/adicionar-serie">Adicionar Série</a></li>
+                    <li><a href="/logout">Sair</a></li>
+                </div>
+            </ul>
+            <ul id="nav-mobile" class="sidenav" th:switch="${usuario.id}">
+                <li th:case="0"><a href="/login">Login</a></li>
+                <div th:case="*">
+                    <li><a href="/dashboard">Dashboard</a></li>
+                    <li><a href="/dashboard/adicionar-serie">Adicionar Série</a></li>
+                    <li><a href="/logout">Sair</a></li>
+                </div>
+            </ul>
+            <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+        </div>
+    </nav> <!-- fim da barra de navegação -->
+
+    <div class="container">
+        <div class="row">
+            <div class="center">
+                <br>
+                <h3 class="blue-text text-ligthen-2">Editar Série</h3>
+            </div>
+
+            <form action="/dashboard/edit-serie" method="POST" class="col s12" th:object="${serie}">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="id" type="hidden" class="validate" th:field="*{id}" required>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input name="titulo" type="text" class="validate" th:field="*{titulo}" required>
+                        <label for="first_name">Nome</label>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea name="sinopse" class="materialize-textarea" th:field="*{sinopse}" required></textarea>
+                        <label for="textarea1">Sinopse</label>
+                    </div>
+                </div>
+
+                <div class="row col s12 m12">
+                    <div class="col s12 m6 row">
+                        <div class="input-field col s10 m10">
+                            <input name="quantidade_ep" type="number" min="1" th:field="*{quantidade_ep}" class="validate" required>
+                            <label for="quantidade_ep">Último episódio assistido</label>
+                        </div>
+                        <div class=" col s2 m2">
+                            <a onclick="M.toast({html: 'Informe o último episódio (numericamente) assistido.<br>Este episódio e os anteriores serão consderados como assistido'})">?</a>
+                        </div>
+                    </div>
+
+                    <div class="col s12 m6 row">
+                        <div class="input-field col s10 m10">
+                            <input name="quantidade_temp" type="number" min="1" th:field="*{quantidade_temp}" class="validate" required>
+                            <label for="quantidade_temp">Qual temporada</label>
+                        </div>
+                        <div class="col s2 m2">
+                            <a onclick="M.toast({html: 'Informe a temporada (numericamente) do último episódio assistido'})">?</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col s12 m12">
+                    <div class="col s12 m6 row">
+                        <div class="input-field col s10 m10">
+                            <input name="tempo_medio" type="number" min="0" th:field="*{tempo_medio}" class="validate" required>
+                            <label for="tempo_medio">Tempo médio por episódio (em minutos)</label>
+                        </div>
+                        <div class="col s2 m2">
+                            <a onclick="M.toast({html: 'Informe a tempo médio (numericamente) dos episódios'})">?</a>
+                        </div>
+                    </div>
+                    <div class="col s12 m3 row">
+                        <div class="col s10 m10">
+                            <label>Série Concluida?</label>
+                            <select name="finalizada" th:field="*{finalizada}" class="browser-default" required>
+                                <option value="false">Não</option>
+                                <option value="true">Sim</option>
+                            </select>
+                        </div>
+                        <div class="col s2 m2">
+                            <a onclick="M.toast({html: 'Informe se você assistiu todos os episódios desta série ou não'})">?</a>
+                        </div>
+                    </div>
+                    <div class="col s12 m3 row">
+                        <div class="col s10 m10">
+                            <label>Nota</label>
+                            <p class="range-field">
+                                <input type="range" name="avaliacao" th:field="*{avaliacao}" min="0" max="10" required />
+                            </p>
+                        </div>
+                        <div class="col s2 m2">
+                            <a onclick="M.toast({html: 'Avalie esta série com nota de 0 á 10'})">?</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <textarea name="comentario" th:field="*{comentario}" class="materialize-textarea" required></textarea>
+                        <label for="textarea1">Comentário</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <button type="submit" class="waves-effect waves-light btn blue lighten-2">
+                        Salvar <i class="material-icons">save</i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <footer class="page-footer blue lighten-1">
+        <div class="footer-copyright">
+            <div class="container">
+                © <span id="data_agora"></span>
+                <a class="grey-text text-lighten-4 right" target="_blank" href="https://github.com/JardelGoncalves">Jardel
+                    Gonçalves</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script type="text/javascript" src="/js/materialize.min.js"></script>
+    <script src="/js/init.js"></script>
+    <script>
+        window.addEventListener('load', (event) => { let data_agora = document.getElementById("data_agora"); var dt = new Date(); data_agora.innerHTML = dt.getFullYear(); });
+        document.getElementById("uploadBtn").onchange = function () { document.getElementById("uploadFile").value = this.value.replace("C:\\fakepath\\", ""); };
+    </script>
+</body>
+
+</html>
