@@ -1,6 +1,7 @@
 package com.jardel.controllers;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigInteger;
@@ -8,6 +9,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.sql.Timestamp;
+import java.util.Optional;
 
 import com.jardel.models.Serie;
 import com.jardel.models.Usuario;
@@ -18,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -52,9 +55,8 @@ public class AdicionarSerie {
     }
 
     @PostMapping("/dashboard/adicionar-serie")
-    public String adicionarSeriePost(
-    Serie serie, @RequestParam("file") MultipartFile file,
-    RedirectAttributes redirectAttributes) {
+    public String adicionarSeriePost(Serie serie, @RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = new Usuario();
@@ -67,7 +69,7 @@ public class AdicionarSerie {
             usuario = (Usuario) auth.getPrincipal();
             // seta o usuário para obter o id na hora de salvar
             serie.setUsuario(usuario);
-            
+
             // monta o nome da imagem
             MessageDigest md = MessageDigest.getInstance("MD5");
             hash_img = timestamp.toString() + usuario.getEmail();
@@ -86,8 +88,7 @@ public class AdicionarSerie {
         // tenta salvar o arquivo
         try {
             byte[] bytes = file.getBytes();
-            BufferedOutputStream bout = new BufferedOutputStream(
-                    new FileOutputStream(workspace + FOLDER + hash_img));
+            BufferedOutputStream bout = new BufferedOutputStream(new FileOutputStream(workspace + FOLDER + hash_img));
             bout.write(bytes);
             bout.flush();
             bout.close();
@@ -103,5 +104,38 @@ public class AdicionarSerie {
         // monta uma mensagem de sucesso
         redirectAttributes.addFlashAttribute("message", "Série adicionada com sucesso!");
         return "redirect:/dashboard/adicionar-serie";
+    }
+
+    @GetMapping("/dashboard/remove-serie/{id}")
+    public String deleteSerie(@PathVariable("id") int id) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Usuario usuario = new Usuario();
+        try {
+            // obtem o usuario caso esteja autenticado
+            usuario = (Usuario) auth.getPrincipal();
+            // obtendo a série
+            Optional<Serie> serie = serieRepository.findById(id);
+            // verifica se o user no db bate com o que ta tentando excluir
+            if (usuario.equals(serie.get().getUsuario())) {
+                // recupero a imagem
+                File file = new File(workspace + FOLDER + serie.get().getFilename());
+                // verifico se é possivel deletar
+                if (file.delete()) {
+                    //faço log
+                    System.out.println("REMOVE AT: "+workspace + FOLDER + serie.get().getFilename());
+                } else
+                    System.out.println("Arquivo não encontrado");
+                // remove o registro no database
+                serieRepository.deleteById(id);
+
+            } else {
+                return "redirect:/login";
+            }
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
+
+        return "redirect:/dashboard";
     }
 }
