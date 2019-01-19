@@ -37,6 +37,8 @@ public class Serie implements Serializable{
     @Lob
     @Column(length=4000)
     private String comentario;
+
+    private int ep_por_temporada;
     
     @Column(columnDefinition="boolean default true")
     private boolean finalizada;
@@ -61,6 +63,14 @@ public class Serie implements Serializable{
 
     public String getFilename() {
         return filename;
+    }
+
+    public int getEp_por_temporada() {
+        return ep_por_temporada;
+    }
+
+    public void setEp_por_temporada(int ep_por_temporada) {
+        this.ep_por_temporada = ep_por_temporada;
     }
 
     public void setFilename(String file) {
@@ -127,7 +137,7 @@ public class Serie implements Serializable{
         this.finalizada = finalizada;
     }
 
-    public double getAvaliacao() {
+    public int getAvaliacao() {
         return this.avaliacao;
     }
 
