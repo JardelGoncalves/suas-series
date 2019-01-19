@@ -138,4 +138,34 @@ public class AdicionarSerie {
 
         return "redirect:/dashboard";
     }
+
+    @GetMapping("/dashboard/view/{id}")
+    public Object viewSeriePage(@PathVariable("id") int id){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        Usuario usuario = new Usuario();
+        Optional<Serie> serie;
+
+        ModelAndView modelAndView;
+
+        try {
+            // obtem o usuario caso esteja autenticado
+            usuario = (Usuario) auth.getPrincipal();
+            // obtendo a série
+            serie = serieRepository.findById(id);
+            // verifica se o user no db bate com o que ta tentando excluir
+            if (serie != null && usuario.equals(serie.get().getUsuario())) {
+
+                modelAndView = new ModelAndView("dashboard/view-serie");
+                
+            }else{
+                return "redirect:/dashboard";
+            }
+        }catch(Exception e){
+            return "redirect:/dashboard";
+        }
+        modelAndView.addObject("usuario", usuario);
+        modelAndView.addObject("serie", serie.get());
+        return modelAndView;
+    }
 }
