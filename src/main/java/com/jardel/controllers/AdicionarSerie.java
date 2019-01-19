@@ -3,8 +3,11 @@ package com.jardel.controllers;
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.MessageDigest;
+import java.sql.Timestamp;
 
 import com.jardel.models.Serie;
 import com.jardel.models.Usuario;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class AdicionarSerie {
@@ -48,17 +52,42 @@ public class AdicionarSerie {
     }
 
     @PostMapping("/dashboard/adicionar-serie")
-    public String adicionarSeriePost(Serie serie, @RequestParam("file") MultipartFile file) {
+    public String adicionarSeriePost(
+    Serie serie, @RequestParam("file") MultipartFile file,
+    RedirectAttributes redirectAttributes) {
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Usuario usuario = new Usuario();
-        
+        String hash_img;
+
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
+        try {
+            // obtem o usuario caso esteja autenticado
+            usuario = (Usuario) auth.getPrincipal();
+            // seta o usuário para obter o id na hora de salvar
+            serie.setUsuario(usuario);
+            
+            // monta o nome da imagem
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            hash_img = timestamp.toString() + usuario.getEmail();
+            md.update(hash_img.getBytes());
+            BigInteger hash = new BigInteger(1, md.digest());
+            hash_img = hash.toString(16) + ".png";
+
+        } catch (Exception e) {
+            return "redirect:/login";
+        }
+
+        // verifica se o usuario enviou o arquivo
         if (file.isEmpty()) {
             return "redirect:/dashboard/adicionar-serie";
         }
+        // tenta salvar o arquivo
         try {
             byte[] bytes = file.getBytes();
             BufferedOutputStream bout = new BufferedOutputStream(
-                    new FileOutputStream(workspace + FOLDER + file.getOriginalFilename()));
+                    new FileOutputStream(workspace + FOLDER + hash_img));
             bout.write(bytes);
             bout.flush();
             bout.close();
@@ -66,19 +95,13 @@ public class AdicionarSerie {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        // setando usuário
-        try {
-            // obtem o usuario caso esteja autenticado
-            usuario = (Usuario) auth.getPrincipal();
-            serie.setUsuario(usuario);
-
-        } catch (Exception e) {
-            return "redirect:/login";
-        }
-        serie.setFilename(file.getOriginalFilename());
-
+        // adiciona o nome da imagem ao objeto
+        serie.setFilename(hash_img);
+        // salva o usuario
         serieRepository.save(serie);
-        return "redirect:/dashboard";
+
+        // monta uma mensagem de sucesso
+        redirectAttributes.addFlashAttribute("message", "Série adicionada com sucesso!");
+        return "redirect:/dashboard/adicionar-serie";
     }
 }
