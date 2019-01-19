@@ -53,9 +53,9 @@
                     <img class="materialboxed responsive-img" width="500" th:src="'/img/' + ${serie.filename}">
                 </div>
                 <div class="col s12 m6">
-                    <p class="info-serie">Você está na <span class="blue-text" th:text="${serie.quantidade_temp}"></span><span
+                    <p class="info-serie">Você está na <span class="blue-text" th:text="${serie.ultima_temp}"></span><span
                             class="blue-text">ª</span> temporada</p>
-                    <p class="info-serie">Último episódio assistido foi <span class="blue-text" th:text="${serie.quantidade_ep}"></span><span
+                    <p class="info-serie">Último episódio assistido foi <span class="blue-text" th:text="${serie.ultimo_ep}"></span><span
                             class="blue-text">º</span></p>
                     <p class="info-serie">Cada episódio dura em média <span class="blue-text" th:text="${serie.tempo_medio}"></span>
                         <span class="blue-text">min</span></p>

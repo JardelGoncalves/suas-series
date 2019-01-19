@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -26,16 +27,20 @@ public class Serie implements Serializable{
     private int id;
 
     private String titulo;
+    @Lob
+    @Column(length=4000)
     private String sinopse;
     private String filename;
-    private int quantidade_ep;
-    private int quantidade_temp;
+    private int ultimo_ep;
+    private int ultima_temp;
     private double tempo_medio;
+    @Lob
+    @Column(length=4000)
     private String comentario;
     
     @Column(columnDefinition="boolean default true")
     private boolean finalizada;
-    private double avaliacao;
+    private int avaliacao;
 
     @CreationTimestamp
     @Temporal(TemporalType.TIMESTAMP)
@@ -78,20 +83,20 @@ public class Serie implements Serializable{
         this.sinopse = sinopse;
     }
 
-    public int getQuantidade_ep() {
-        return this.quantidade_ep;
+    public int getUltimo_ep() {
+        return ultimo_ep;
     }
 
-    public void setQuantidade_ep(int quantidade_ep) {
-        this.quantidade_ep = quantidade_ep;
+    public void setUltimo_ep(int ultimo_ep) {
+        this.ultimo_ep = ultimo_ep;
     }
 
-    public int getQuantidade_temp() {
-        return this.quantidade_temp;
+    public int getUltima_temp() {
+        return ultima_temp;
     }
 
-    public void setQuantidade_temp(int quantidade_temp) {
-        this.quantidade_temp = quantidade_temp;
+    public void setUltima_temp(int ultima_temp) {
+        this.ultima_temp = ultima_temp;
     }
 
     public double getTempo_medio() {
@@ -126,7 +131,7 @@ public class Serie implements Serializable{
         return this.avaliacao;
     }
 
-    public void setAvaliacao(double avaliacao) {
+    public void setAvaliacao(int avaliacao) {
         this.avaliacao = avaliacao;
     }
 

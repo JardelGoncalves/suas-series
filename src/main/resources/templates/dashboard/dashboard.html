@@ -55,8 +55,6 @@
                     <br>
                     Você não possui séries cadastradas!
                 </h4>
-                <p th:text="${usuario.id}"></p>
-
                 <a class="waves-effect waves-light btn blue lighten-2">Que tal começar!</a>
             </div>
             <div class="with-series" th:case="*">
@@ -72,7 +70,7 @@
                         <div class="card-content">
                             <h6 style="text-transform: capitalize;" th:text="${serie.titulo}"></h6>
                             <div class="informacao">
-                                <p class="blue-text">Quantidade de ep. assistido: <span class="black-text" th:text="${serie.quantidade_ep} * ${serie.quantidade_temp}"></span></p>
+                                <p class="blue-text">Quantidade de ep. assistido: <span class="black-text" th:text="${serie.ultimo_ep} * ${serie.ultima_temp}"></span></p>
                                 <p class="blue-text">Tempo médio por ep: <span class="black-text" th:text="${serie.tempo_medio} + ' min'"></span></p>
                                 <p class="blue-text" th:switch="${serie.finalizada}">Série concluida: 
                                     <span class="black-text" th:case="true">Sim</span>
