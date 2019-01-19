@@ -7,7 +7,7 @@ import com.jardel.models.Serie;
 import com.jardel.models.Usuario;
 import com.jardel.repository.SerieRepository;
 
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class Dashboard{
 
-    @AutoConfigureOrder
+    @Autowired
     private SerieRepository serieRepository;
 
     @GetMapping("/dashboard")
@@ -34,7 +34,7 @@ public class Dashboard{
             usuario = (Usuario) auth.getPrincipal();
             // resgata todas as series cadastra pelo usuario
             series = serieRepository.findSerieByUser(usuario.getId());
-
+            
 
         } catch (Exception e) {
 
